@@ -1,0 +1,95 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>Helping Hand</title>
+  <!-- plugins:css -->
+  <link rel="stylesheet" href="/template/vendors/feather/feather.css">
+  <link rel="stylesheet" href="/template/vendors/ti-icons/css/themify-icons.css">
+  <link rel="stylesheet" href="/template/vendors/css/vendor.bundle.base.css">
+  <link rel="stylesheet" href="/assets/css/style.css">
+  <!-- endinject -->
+  <!-- Plugin css for this page -->
+  <!-- End plugin css for this page -->
+  <!-- inject:css -->
+  <link rel="stylesheet" href="/template/css/vertical-layout-light/style.css">
+  <!-- endinject -->
+  <link rel="shortcut icon" href="/template/images/favicon.png" />
+</head>
+
+<style>
+.flash-message {
+  box-sizing: border-box;
+	animation-name: flash, fade-out;
+	animation-duration: 0.6s, 10s;
+	animation-fill-mode: both, both;
+  animation-timing-function:ease,ease-in;
+  text-align: center; line-height: 20px;
+  padding: 10px; font-size: 16px;
+  border: 1px solid black; margin: 10px;
+  background: #ccc;
+}
+ 
+@keyframes flash {
+	14% { font-size: 24px; color: red; background: #ff0; }
+	28% { font-size: 12px; color: initial; background: initial; }
+	42% { font-size: 18px; }
+	57% { font-size: 15px; }
+	71% { font-size: 16.5px; }
+	85% { font-size: 15.75px; }
+}
+
+@keyframes fade-out { 100% { opacity: 0; } }
+</style>
+<body>
+  <div>
+    <% if (messages.success) { %>
+        <div class="success flash-message">
+            <%= messages.success %>
+        </div>
+    <% } %>
+
+    <% if (messages.error) { %>
+        <div class="error flash-message">
+            <%= messages.error %>
+        </div>
+    <% } %>
+
+    <% if (messages.info) { %>
+        <div class="info flash-message">
+            <%= messages.info %>
+        </div>
+    <% } %>
+
+    <% if (messages.custom) { %>
+        <div class="custom flash-message">
+            <%= messages.custom %>
+        </div>
+    <% } %>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+
+
+<script>
+    // Wait for the DOM to be ready
+    $(document).ready(function () {
+        // Show and then hide flash messages with fade-in and fade-out animations
+        $('#flash-messages').fadeIn().delay(3000).fadeOut();
+    });
+</script>

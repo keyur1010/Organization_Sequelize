@@ -1,0 +1,14 @@
+----------->>>there is 3 roles 
+------>>>admin                                            organization            candidate
+----------------------------------------------------------------------------------------------------------
+in admin when can see organizaion
+and also see candidate and also how much money who transfer in money in which organiztion
+
+
+
+
+Usermodel:----
+name,email,balance,role
+
+
+how can i manage fa=lag
