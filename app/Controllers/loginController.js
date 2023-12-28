@@ -12,12 +12,15 @@ exports.signPage=async(req,res)=>{
         const adminAlready=await userModel.findOne({where:{role:'admin'}},{transaction:t})   //this query just for now in this if there is multiple admin then change 
         if(adminAlready){
             console.log('Admin Already Exist')
+            req.flash('success','signup')
         }else{
             const random_value=helper.generateRandomString()
             const superAdminCreate=await userModel.create({name:"admin",role:"admin",email:'admin@gmail.com',mobile:"9904472504",password:'123456878',country:'IN',balance:'0',random_value:random_value},{transaction:t})
+            req.flash('success','Admin Created')
+
             t.commit()
         }
-        return res.render('./common/signUpPage.ejs')
+        return res.render('./common/signUpPage.ejs',{messages:req.flash()})
     } catch (error) {
         console.log(error)
         t.rollback()
@@ -51,7 +54,7 @@ exports.userCreate=async(req,res)=>{
 exports.loginPage=async(req,res)=>{
     try {
         console.log('Login Page')
-        req.flash('error', 'This is a success flash message.');
+        req.flash('error', 'This is a error flash messgae.');
         
         return res.render('./common/login.ejs',{messages:req.flash()})
     } catch (error) {
