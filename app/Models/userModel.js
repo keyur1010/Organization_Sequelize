@@ -27,7 +27,7 @@ module.exports=(sequelize,DataTypes)=>{
         type:DataTypes.STRING,
        },
        role:{
-        type:Sequelize.ENUM("admin","candidate",'organization'),
+        type:Sequelize.ENUM("Super Admin","candidate",'organization'),
         defaultValue:'candidate'
        },
        createdOn:{

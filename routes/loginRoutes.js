@@ -13,7 +13,8 @@ router.post('/checkLogin',loginC.checkLogin)
 router.get('/signup',loginC.signPage)
 router.post('/userCreate',loginC.userCreate)
 
-
+//super admin Routes
+router.get('/dashboard',loginC.dashboardSuperAdmin)
 
 
 

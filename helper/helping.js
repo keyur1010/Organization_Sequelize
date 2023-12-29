@@ -1,17 +1,23 @@
-function generateRandomString(length=32) {
-  const charset = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890-";
-  let result = "";
+
+
+function generateRandomString(length=20) {
+  const letters = "abcdefghijklmnopqrstuvwxyz1234567890";
+  let randomString = "";
 
   for (let i = 0; i < length; i++) {
-    const randomIndex = Math.floor(Math.random() * charset.length);
-    result += charset.charAt(randomIndex);
+    const randomIndex = Math.floor(Math.random() * letters.length);
+    randomString += letters.charAt(randomIndex);
   }
 
-  // Append the current timestamp at the end of the string
-  result += Date.now();
-
-  return result;
+  const now = new Date();
+  const dateString = now.toISOString().replace(/[^0-9]/g, "");
+const random=randomString+dateString
+  return random
 }
+
+
+
+
 
 
 
