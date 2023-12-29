@@ -11,12 +11,15 @@ router.post('/checkLogin',loginC.checkLogin)
 //logout route
 router.get('/logout',loginC.logout)
 
+//organization sign up
+router.get('/OrganizationForm',loginC.OrganizationForm)
+
 //sign up page route
 router.get('/signup',loginC.signPage)
 router.post('/userCreate',loginC.userCreate)
 
 //super admin Routes
-router.get('/dashboard',loginC.dashboardSuperAdmin)
+router.get('/dashboard',auth.login,loginC.dashboardSuperAdmin)
 
 
 

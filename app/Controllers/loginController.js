@@ -20,7 +20,41 @@ exports.logout=async(req,res)=>{
         })
     } catch (error) {
         console.log(error)
-        return res.redirect('/')
+        return res.redirect('/logout')
+    }
+}
+
+
+
+
+//weathere api
+exports.weather=async(req,res)=>{
+    const apiKey = '4a691b469d984552bb554543232912';
+    try {
+
+        if(req.session.user){
+            const location =req.session.user.city;
+            // console.log(location)
+            const apiUrl = `http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${location}&aqi=no`;
+            const response = await axios.get(apiUrl);
+            const weatherData = response.data;
+            return res.json(weatherData);
+        }else{
+            // console.log(location)
+            const l="india"
+            const apiUrl = `http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${l}&aqi=no`;
+            const response = await axios.get(apiUrl);
+            const weatherData = response.data;
+            // console.log(weatherData);
+            return res.json(weatherData);
+        }
+    } catch (error) {
+        console.log(error)
+        const l="india"
+        const apiUrl = `http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${l}&aqi=no`;
+        const response = await axios.get(apiUrl);
+        const weatherData = response.data;
+        return res.json(weatherData);
     }
 }
 
@@ -39,7 +73,8 @@ exports.signPage=async(req,res)=>{
             console.log('Admin Already Exist')
         }else{
             const random_value=helper.generateRandomString()                                     //random Value generate
-            const superAdminCreate=await userModel.create({name:"admin",role:"Super Admin",email:'admin@gmail.com',mobile:"9904472504",password:'123456878',country:'IN',balance:'0',random_value:random_value},{transaction:t})   //admin create
+
+            const superAdminCreate=await userModel.create({name:"admin",role:"Super Admin",email:'admin@gmail.com',mobile:"9904472504",password:'123456878',country:'IN',balance:'0',status:'Super',random_value:random_value},{transaction:t})   //admin create
             t.commit()
         }
         
@@ -47,6 +82,7 @@ exports.signPage=async(req,res)=>{
     } catch (error) {
         console.log(error)
         t.rollback()
+        return res.redirect('/logout')
     }
 }
 
@@ -78,7 +114,7 @@ exports.userCreate=async(req,res)=>{
         console.log(error)
         await t.rollback()
         req.flash('error','Something Went Wrong')
-        return res.redirect('/signup')
+        return res.redirect('/logout')
     }
 }
 
@@ -93,7 +129,7 @@ exports.loginPage=async(req,res)=>{
         return res.render('./common/login.ejs',{messages:req.flash()})
     } catch (error) {
         console.log(error)
-        
+        return res.redirect('/logout')
     }
 }
 
@@ -125,7 +161,7 @@ exports.checkLogin=async(req,res)=>{
     } catch (error) {
         console.log(error)
         req.flash('error','Something Wrong With Login')
-        return res.redirect('/')
+        return res.redirect('/logout')
     }
 }
 
@@ -138,42 +174,32 @@ exports.checkLogin=async(req,res)=>{
 
 exports.dashboardSuperAdmin=async(req,res)=>{
     try {
-        return res.render('./Super_Admin/adminDashboard.ejs',{messages:req.flash()})
+        const userData=await userModel.findOne({where:{id:req.session.user.id}})
+        return res.render('./Super_Admin/adminDashboard.ejs',{messages:req.flash(),userData:userData})
     } catch (error) {
         console.log(error)
         req.flash('Something Went Wrong')
-        return res.redirect('/')
+        return res.redirect('/logout')
     }
 }
 
-//weathere api
-exports.weather=async(req,res)=>{
-    const apiKey = '4a691b469d984552bb554543232912';
-    try {
 
-        if(req.session.user){
-            const location =req.session.user.city;
-            console.log(location)
-            const apiUrl = `http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${location}&aqi=no`;
-            const response = await axios.get(apiUrl);
-            const weatherData = response.data;
-            res.json(weatherData);
-        }else{
-            // console.log(location)
-            const l="india"
-            const apiUrl = `http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${l}&aqi=no`;
-            const response = await axios.get(apiUrl);
-            const weatherData = response.data;
-            // console.log(weatherData);
-            res.json(weatherData);
-        }
+
+
+
+
+
+
+
+
+//organization Form
+//get
+exports.OrganizationForm=async(req,res)=>{
+    try {
+        
+        return res.render('./common/organization.ejs',{messages:req.flash()})
     } catch (error) {
         console.log(error)
-        const l="india"
-        const apiUrl = `http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${l}&aqi=no`;
-        const response = await axios.get(apiUrl);
-        const weatherData = response.data;
-        res.json(weatherData);
-        
+        return res.redirect('/logout')
     }
 }

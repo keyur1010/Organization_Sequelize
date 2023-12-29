@@ -7,7 +7,7 @@ const loginC=db.userModel
 exports.isLogin=async(req,res,next)=>{
     try {
         const session=req.session.user
-        console.log('session-----')
+        console.log('session----->',session)
         if(session){
             if(session.role=='Super Admin'){
                 console.log('admin dashboard')
@@ -37,3 +37,60 @@ exports.isLogin=async(req,res,next)=>{
 }
 
 
+exports.login=async(req,res,next)=>{
+    try {
+        if(req.session.user){
+            if(req.session.user.role=="Super Admin"){
+                next()
+                console.log('This is Super Admin')
+            }else{
+                console.log("You Are At Wrong Route")
+                return res.redirect('/logout')
+            }
+        }else{
+            console.log("Session Not Found")
+            return res.redirect('/logout')
+        }
+    } catch (error) {
+        console.log(error)
+        return res.redirect('/logout')
+    }
+}
+exports.organization=async(req,res)=>{
+    try {
+        if(req.session.user){
+            if(req.session.user.role=="organization"){
+                console.log("This is Organization")
+                next()
+            }else{
+                console.log("You Are At Wrong")
+                return res.redirect('/logout')
+            }
+        }else{
+            console.log("Session Not Found")
+            return res.redirect('/logout')
+        }
+    } catch (error) {
+        console.log(error)
+        return res.redirect('/logout')
+    }
+}
+exports.CandidateLogin=async(req,res)=>{
+    try {
+        if(req.session.user){
+            if(req.session.user.role=="candidate"){
+                console.log("This is Candidate")
+                next()
+            }else{
+                console.log("You Are Wrong Route")
+                return res.redirect('/logout')
+            }
+        }else{
+            console.log("Session Not Found")
+            return res.redirect('/logout')
+        }
+    } catch (error) {
+        console.log(error)
+        return res.redirect('/logout')
+    }
+}

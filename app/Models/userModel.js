@@ -51,6 +51,9 @@ module.exports=(sequelize,DataTypes)=>{
        isLogin:{
         type:DataTypes.BOOLEAN,
         defaultValue:false
+       },
+       status:{
+        type:Sequelize.ENUM('Approved','Super','Pending',"Remaining",'Verifying','Processing','Closed','Cancelled','Rejected')    //Approved:-approve ,Remaining-Remain filling data ,verifying:-underverification,processing-'UNder Proccess,Closed-your application closed ,Cancelled-your somedocumentwrong,Rejected-you are rejected because you want to do fraud
        }
     });
     userModel.beforeCreate(async(user)=>{
