@@ -1,5 +1,6 @@
 const {  Sequelize, DataTypes,Op } = require('sequelize');
 const bcrypt=require('bcryptjs')
+const axios=require('axios')
 
 const db=require('../../config/OrganizationDatabase')
 const helper=require('../../helper/helping')
@@ -95,7 +96,7 @@ exports.checkLogin=async(req,res)=>{
                 console.log('password Matched') 
                 req.session.user=checkData
                 req.flash('success','Welcome To Dashboard')
-                return res.redirect('/')
+                return res.redirect('/dashboard')
             }else{
                 console.log('password not Matched')
                 req.flash("error",'Password Not Matched')
@@ -126,5 +127,37 @@ exports.dashboardSuperAdmin=async(req,res)=>{
         console.log(error)
         req.flash('Something Went Wrong')
         return res.redirect('/')
+    }
+}
+
+//weathere api
+exports.weather=async(req,res)=>{
+    const apiKey = '4a691b469d984552bb554543232912';
+    try {
+
+        if(req.session.user){
+            const location =req.session.user.city;
+            console.log(location)
+            const apiUrl = `http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${location}&aqi=no`;
+            const response = await axios.get(apiUrl);
+            const weatherData = response.data;
+            res.json(weatherData);
+        }else{
+            // console.log(location)
+            const l="india"
+            const apiUrl = `http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${l}&aqi=no`;
+            const response = await axios.get(apiUrl);
+            const weatherData = response.data;
+            // console.log(weatherData);
+            res.json(weatherData);
+        }
+    } catch (error) {
+        console.log(error)
+        const l="india"
+        const apiUrl = `http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${l}&aqi=no`;
+        const response = await axios.get(apiUrl);
+        const weatherData = response.data;
+        res.json(weatherData);
+        
     }
 }

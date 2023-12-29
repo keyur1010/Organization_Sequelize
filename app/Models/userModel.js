@@ -26,6 +26,9 @@ module.exports=(sequelize,DataTypes)=>{
        country:{
         type:DataTypes.STRING,
        },
+       city:{
+        type:DataTypes.STRING,
+       },
        role:{
         type:Sequelize.ENUM("Super Admin","candidate",'organization'),
         defaultValue:'candidate'

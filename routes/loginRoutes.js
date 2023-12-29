@@ -23,4 +23,30 @@ router.get('/dashboard',loginC.dashboardSuperAdmin)
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//weather api //according to city give us a temparature
+router.get('/weather',loginC.weather)
+
+
+
+
+
+
+
 module.exports=router
