@@ -6,7 +6,23 @@ const db=require('../../config/OrganizationDatabase')
 const helper=require('../../helper/helping')
 const userModel=db.userModel
 
-
+//logout logic
+exports.logout=async(req,res)=>{
+    try {
+        req.session.destroy((err)=>{
+            if(err){
+                console.log(err)
+                return res.redirect('/')
+            }else{
+                console.log('session destroy')
+                return res.redirect('/')
+            }
+        })
+    } catch (error) {
+        console.log(error)
+        return res.redirect('/')
+    }
+}
 
 
 //Sign Up page logic
