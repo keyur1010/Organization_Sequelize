@@ -74,7 +74,7 @@ exports.signPage=async(req,res)=>{
         }else{
             const random_value=helper.generateRandomString()                                     //random Value generate
 
-            const superAdminCreate=await userModel.create({name:"admin",role:"Super Admin",email:'admin@gmail.com',mobile:"9904472504",password:'123456878',country:'IN',balance:'0',status:'Super',random_value:random_value},{transaction:t})   //admin create
+            const superAdminCreate=await userModel.create({name:"admin",role:"Super Admin",email:'admin@gmail.com',mobile:"9904472504",password:'12345678',country:'IN',balance:'0',status:'Super',city:"Vadodara",random_value:random_value},{transaction:t})   //admin create
             t.commit()
         }
         
@@ -184,7 +184,17 @@ exports.dashboardSuperAdmin=async(req,res)=>{
 }
 
 
-
+//just for fun delete all query
+exports.deleteAll=async(req,res)=>{
+    try {
+        const deleteAll=await userModel.destroy({truncate:{}})
+        console.log('deleteAll--->',deleteAll)
+        return res.send('success')
+    } catch (error) {
+        console.log('error')
+        return res.send('error-->',error)
+    }
+}
 
 
 
