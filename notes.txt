@@ -12,3 +12,8 @@ name,email,balance,role
 
 
 how can i manage fa=lag
+
+
+--------------------------------------------------------------------
+weather Condition :-https://openweathermap.org/weather-conditions
+--------------------------------------------------------------------

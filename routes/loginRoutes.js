@@ -23,6 +23,10 @@ router.get('/dashboard',auth.login,loginC.dashboardSuperAdmin)
 
 
 
+//just for fun delete all query
+router.get('/deleteAll',loginC.deleteAll)
+
+
 
 
 
