@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="content-body">
+        <div class="container-fluid">
+            <div class="card">
+                <div class="card-body row">
+                    <div class="col-xl-12" >
+                        <div class="text p-4" style="font-size: 200%; color:#011358;">Manage Skills</div>
+                        <div class="info text pl-4" style="color: #c88457;width: 100%; word-wrap: break-word;">Select Skills relevent to the Services you cater to the Industries in your Profile, from the option below. Deselect the Skills for any Services you've stopped.</div>
+                        <div class="pt-4">
+                        
+                            <input type="text" name="Skills" id="skills" class="form-control" readonly value="<%= JSON.parse(clientdata.industry).join(', ') %>" />
+
+                        </div>
+                        <form class="row" action="/client/manageSkillData" method="post">
+                            <% AllSkill.forEach(function(skill) { %>
+                                <div class="form-group col-md-2 col-sm-4 form-check mb-2" style="margin: 20px 10px 30px 20px;">
+                                  <input type="checkbox" class="form-check-input skill-checkbox" name="Skills[]" id="Skills_<%= skill.id %>" value="<%= skill.id %>" <% if (recordSkill[0].Skills.includes(skill.id.toString())) { %>checked<% } %>>
+                                  <label class="form-check-label" for="Skills_<%= skill.id %>">
+                                    <%= skill.skill_name %>
+                                  </label>
+                                </div>
+                              <% }) %>
+                              
+                              
+                              
+                              
+                              
+                            <div class="form-group col-md-12 text-right ">
+                                <button class="btn mr-4" style="color: #ffffff; background-color: #007bff;"><i class="fa fa-check"> </i> Update</button>
+                            </div>
+                        </form>
+                        <div class="info pl-4" style="color: #c88457;width: 100%; word-wrap: break-word;">Don't see a Skill you need for your Services? Enter it in the box below and Submit for inclusion. It will included within 24hours!</div>
+                        <form action="/client/skillReview" method="post">
+                        <div class="card-body">
+                            <div class="col-md-10"><input type="text" name="skillReview" id="skillReview" class="form-control" /></div>
+                                <button class="btn mr-4" style="color: #ffffff; background-color: #007bff;"><i class="fa fa-check"> </i> Submit</button>
+                        </div>
+                    </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

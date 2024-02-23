@@ -34,10 +34,11 @@ exports.weather=async(req,res)=>{
 
         if(req.session.user){
             const location =req.session.user.city;
-            // console.log(location)
+            console.log(location)
             const apiUrl = `http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${location}&aqi=no`;
             const response = await axios.get(apiUrl);
             const weatherData = response.data;
+            console.log(weatherData)
             return res.json(weatherData);
         }else{
             // console.log(location)

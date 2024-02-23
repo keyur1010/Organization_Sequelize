@@ -1,0 +1,42 @@
+
+//manage Skill
+exports.manageSkill=async(req,res)=>{
+    try {
+      const session = await loginModel.findOne({ where: { role: req.session.user.role,email: req.session.user.email } })
+      const clientdata=await clientModel.findOne({where:{login_random:req.session.user.login_random}})
+      const industry=await g_industryModel.findAll({where:{status:1}})
+      // console.log('service table---->',clientdata)
+      // const data=await clientShiftModel.findAll({})
+      const AllSkill = await skillModel.findAll({ where: { status: 1 } });
+      const recordSkill=await clientJobSkillModel.findAll({where:{client_id:req.session.user.id}})
+  console.log(recordSkill)
+     
+      return res.render('./clientdashboard/Client/manageSkill.ejs',{session:session,messages:req.flash(),clientdata:clientdata,AllSkill:AllSkill,recordSkill:recordSkill})
+   
+    } catch (error) {
+      console.log(error)
+      req.flash('error','Something Went Wrong')
+      return res.redirect('/login')
+    }
+  }
+  
+  
+  exports.manageSkillData=async(req,res)=>{
+    try {
+      console.log("manage skill Post---->",req.body)
+      const alreadySkill=await clientJobSkillModel.findOne({where:{client_id:req.session.user.id}})
+      const allSkill=req.body.Skills
+      console.log('alreadySKil---->-l',alreadySkill)
+      if(alreadySkill){
+        const updateSkill=await clientJobSkillModel.update({Skills:allSkill},{where:{login_random:req.session.user.login_random}})
+      }else{
+  
+        const createSkill=await clientJobSkillModel.create({Skills:allSkill,login_random:req.session.user.login_random,client_id:req.session.user.id})
+      }
+      return res.redirect('/client/manageSkill')
+    } catch (error) {
+      console.log(error)
+      req.flash('error','Something Went Wrong')
+      return res.redirect('/login')
+    }
+  }
