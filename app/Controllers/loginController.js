@@ -5,7 +5,7 @@ const axios=require('axios')
 const db=require('../../config/OrganizationDatabase')
 const helper=require('../../helper/helping')
 const userModel=db.userModel
-
+const organizationModel=db.organizationModel
 //logout logic
 exports.logout=async(req,res)=>{
     try {
@@ -100,9 +100,22 @@ exports.userCreate=async(req,res)=>{
         console.log('checkUnique-------->',checkUnique)
         if(!checkUnique) {
             const random=helper.generateRandomString()
-            body.random_value=random
-            const loginDataCreate=await userModel.create(body,{transaction:t})
-            console.log('loginDataCreate',loginDataCreate)
+            body.random_value=random;
+            body.balance=0
+            if(body.role==="candidate"){
+                const loginDataCreate=await userModel.create(body,{transaction:t})
+            }else{
+                body.status="Pending";
+                const loginDataCreate=await userModel.create(body,{transaction:t})
+                if(body.role==="organization"){
+                    // const
+                    const dataCreate=await organizationModel.create({user_id:loginDataCreate.id},{transaction:t})
+                }else{
+                    t.rollback();
+                    req.flash('error',"Error While Create a Organization")
+                    return res.redirect('/logout')
+                }
+            }
             await t.commit()
             req.flash('success','Your Account Created Successfully')
             return res.redirect('/')    
@@ -190,9 +203,11 @@ exports.deleteAll=async(req,res)=>{
     try {
         const deleteAll=await userModel.destroy({truncate:{}})
         console.log('deleteAll--->',deleteAll)
+        
         return res.send('success')
     } catch (error) {
         console.log('error')
+        
         return res.send('error-->',error)
     }
 }
@@ -205,12 +220,38 @@ exports.deleteAll=async(req,res)=>{
 
 //organization Form
 //get
-exports.OrganizationForm=async(req,res)=>{
+exports.organizationForm=async(req,res)=>{
     try {
-        
+        const orData=await organizationModel.findAll()
+        console.log('orData--->',orData)
         return res.render('./common/organization.ejs',{messages:req.flash()})
     } catch (error) {
         console.log(error)
+        return res.redirect('/logout')
+    }
+}
+
+//post 
+exports.organizationFormData=async(req,res)=>{
+    const t=await db.sequelize.transaction()
+    try {
+        console.log("req.body-->",req.body)
+        const organizationData=req.body;
+        if(organizationData.governmentCertified==="Yes"){
+            organizationData.governmentCertified=1
+        }else{
+            organizationData.governmentCertified=0
+        }
+        organizationData.status="Pending";
+        const organizationDataCreate=await organizationModel.create(organizationData,{transaction:t});
+        console.log(organizationDataCreate)
+        await t.commit()
+        return res.redirect("/organizationForm")
+
+    } catch (error) {
+        console.log(error)
+        t.rollback();
+        req.flash('error',"Something Went Wrong")
         return res.redirect('/logout')
     }
 }

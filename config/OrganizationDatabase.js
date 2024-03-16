@@ -30,6 +30,13 @@ db.Sequelize=Sequelize
 db.sequelize=sequelize
 
 db.userModel=require('../app/Models/userModel')(sequelize,DataTypes)
+db.organizationModel=require("../app/Models/organizationModel")(sequelize,DataTypes)
+
+
+// db.userModel.hasOne(db.organizationModel,{foreignKey:"use_id",as:"keur"})
+db.organizationModel.belongsTo(db.userModel,{foreignKey:"user_id" ,as:"keyur"})
+
+
 
 
 db.sequelize.sync({force:false,alter:true}).then(()=>{

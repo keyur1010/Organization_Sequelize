@@ -2,32 +2,23 @@ const {Sequelize,DataTypes}=require('sequelize')
 
 module.exports=(sequelize,DataTypes)=>{
     const organizationModel=sequelize.define('organizationModel',{
-            organizationName:{
-                type:DataTypes.STRING,
-                allowNull:false
-            },
-            organizationEmail:{
-                type:DataTypes.STRING,
-                allowNull:false
-            },
-            organizationMobile:{
-                type:DataTypes.DECIMAL,
-                allowNull:false
-            },
+        
             organizationType:{
-                type:sequelize.ENUM("Medical","Study","Charity"),
-                allowNull:false
+                type:Sequelize.ENUM("Medical","Study","Charity"),
             },
             organizationAddress:{
                 type:DataTypes.STRING,
-                allowNull:false
             },
+            
             whySelect:{
                 type:DataTypes.TEXT
             },
             governmentCertified:{
                 type:DataTypes.BOOLEAN,
                 defaultValue:false
+            },
+            organizationImage:{
+                type:DataTypes.STRING,
             },
             updatedBy:{
                 type:DataTypes.STRING

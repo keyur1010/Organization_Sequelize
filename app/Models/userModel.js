@@ -52,7 +52,7 @@ module.exports=(sequelize,DataTypes)=>{
         defaultValue:false
        },
        status:{
-        type:Sequelize.ENUM('Approved','Super','Pending',"Remaining",'Verifying','Processing','Closed','Cancelled','Rejected')    //Approved:-approve ,Remaining-Remain filling data ,verifying:-underverification,processing-'UNder Proccess,Closed-your application closed ,Cancelled-your somedocumentwrong,Rejected-you are rejected because you want to do fraud
+        type:Sequelize.ENUM('Approved','Super','Pending',"Remaining",'Verifying','Processing','Closed','Cancelled','Rejected')    //Approved:-approve ,Remaining-Remain filling data ,verifying:-under verification,processing-'UNder Proccess,Closed-your application closed ,Cancelled-your somedocumentwrong,Rejected-you are rejected because you want to do fraud
        }
     });
     userModel.beforeCreate(async(user)=>{
