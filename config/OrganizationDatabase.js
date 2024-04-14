@@ -17,8 +17,7 @@ const sequelize = new Sequelize('Organization_Project', 'root', '', {
 
 
 
-sequelize.authenticate()
-  .then(() => {
+sequelize.authenticate().then(() => {
     console.log('Database connection has been established successfully.');
   })
   .catch((err) => {

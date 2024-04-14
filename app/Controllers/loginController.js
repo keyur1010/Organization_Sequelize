@@ -103,13 +103,22 @@ exports.userCreate=async(req,res)=>{
             body.random_value=random;
             body.balance=0
             if(body.role==="candidate"){
+                console.log("this is candidate if in userCreate")
                 const loginDataCreate=await userModel.create(body,{transaction:t})
             }else{
                 body.status="Pending";
+                console.log('in else')
                 const loginDataCreate=await userModel.create(body,{transaction:t})
                 if(body.role==="organization"){
-                    // const
-                    const dataCreate=await organizationModel.create({user_id:loginDataCreate.id},{transaction:t})
+                    const user_id=loginDataCreate.id
+                    body.user_id=user_id;
+                    const dataCreate=await organizationModel.create(body,{transaction:t})
+                    console.log('dataCreate==>',dataCreate)
+                    req.session.user=dataCreate
+                    console.log('this is session inside of sign up --->',req.session.user)
+                    await t.commit()
+                    req.flash('success','Your Account Created Successfully')
+                    return res.redirect('/organizationForm')
                 }else{
                     t.rollback();
                     req.flash('error',"Error While Create a Organization")
@@ -224,6 +233,8 @@ exports.organizationForm=async(req,res)=>{
     try {
         const orData=await organizationModel.findAll()
         console.log('orData--->',orData)
+        console.log('this is session inside of organization Form --->',req.session.user)
+
         return res.render('./common/organization.ejs',{messages:req.flash()})
     } catch (error) {
         console.log(error)
@@ -255,3 +266,19 @@ exports.organizationFormData=async(req,res)=>{
         return res.redirect('/logout')
     }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -13,7 +13,7 @@ router.get('/logout',loginC.logout)
 
 //organization sign up
 router.get('/organizationForm',loginC.organizationForm)
-router.post('/organizationForm',loginC.organizationFormData)
+router.post('/organizationFormData',loginC.organizationFormData)
 //sign up page route
 router.get('/signup',loginC.signPage)
 router.post('/userCreate',loginC.userCreate)
