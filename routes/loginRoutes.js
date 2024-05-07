@@ -23,39 +23,6 @@ router.get('/dashboard',auth.login,loginC.dashboardSuperAdmin)
 
 
 
-//just for fun delete all query
-router.get('/deleteAll',loginC.deleteAll)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-//weather api //according to city give us a temparature
-router.get('/weather',loginC.weather)
-
-
-
-
-
 
 
 module.exports=router

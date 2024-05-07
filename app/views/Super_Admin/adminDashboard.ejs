@@ -451,7 +451,7 @@
         $(document).ready(function() {
             //make an AJAX request to fetch weather data from router
             $.ajax({
-                url: '/weather', // call the router and get the value
+                url: '/rest/weather', // call the router and get the value
                 method: 'GET',
                 success: function(data) {
                     $('#temperature').text(data.current.temp_c);

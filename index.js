@@ -18,6 +18,10 @@ app.set('view engine','ejs')
 app.set('views','./app/views')
 
 
+
+
+    
+
 app.use(express.json())
 app.use(express.static(path.join(__dirname,'public')))
 
@@ -36,7 +40,9 @@ const PORT=process.env.PORT||3707
 const db =require('./config/OrganizationDatabase')
 
 const loginRoute=require('./routes/loginRoutes')
+const restRouter=require('./routes/restRouter')
 app.use('/',loginRoute)
+app.use('/rest',restRouter)
 
 
 app.listen(PORT,()=>{

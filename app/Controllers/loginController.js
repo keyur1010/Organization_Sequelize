@@ -25,41 +25,6 @@ exports.logout=async(req,res)=>{
 }
 
 
-
-
-//weathere api
-exports.weather=async(req,res)=>{
-    const apiKey = '4a691b469d984552bb554543232912';
-    try {
-
-        if(req.session.user){
-            const location =req.session.user.city;
-            console.log(location)
-            const apiUrl = `http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${location}&aqi=no`;
-            const response = await axios.get(apiUrl);
-            const weatherData = response.data;
-            console.log(weatherData)
-            return res.json(weatherData);
-        }else{
-            // console.log(location)
-            const l="india"
-            const apiUrl = `http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${l}&aqi=no`;
-            const response = await axios.get(apiUrl);
-            const weatherData = response.data;
-            // console.log(weatherData);
-            return res.json(weatherData);
-        }
-    } catch (error) {
-        console.log(error)
-        const l="india"
-        const apiUrl = `http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${l}&aqi=no`;
-        const response = await axios.get(apiUrl);
-        const weatherData = response.data;
-        return res.json(weatherData);
-    }
-}
-
-
 //Sign Up page logic
 
 //sign up page
@@ -104,10 +69,10 @@ exports.userCreate=async(req,res)=>{
             body.balance=0
             if(body.role==="candidate"){
                 console.log("this is candidate if in userCreate")
+                body.status="Candidate"
                 const loginDataCreate=await userModel.create(body,{transaction:t})
             }else{
-                body.status="Pending";
-                console.log('in else')
+                body.status="Remaining";
                 const loginDataCreate=await userModel.create(body,{transaction:t})
                 if(body.role==="organization"){
                     const user_id=loginDataCreate.id
@@ -207,19 +172,6 @@ exports.dashboardSuperAdmin=async(req,res)=>{
 }
 
 
-//just for fun delete all query
-exports.deleteAll=async(req,res)=>{
-    try {
-        const deleteAll=await userModel.destroy({truncate:{}})
-        console.log('deleteAll--->',deleteAll)
-        
-        return res.send('success')
-    } catch (error) {
-        console.log('error')
-        
-        return res.send('error-->',error)
-    }
-}
 
 
 
