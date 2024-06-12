@@ -1,10 +1,6 @@
 const {Sequelize,DataTypes}=require('sequelize')
 const axios=require("axios")
-const isOnline=require('is-online')
-
-
-
-
+// const isOnline=require('is-online')
 
 
 
