@@ -56,7 +56,7 @@ exports.login=async(req,res,next)=>{
         return res.redirect('/logout')
     }
 }
-exports.organization=async(req,res)=>{
+exports.organization=async(req,res,next)=>{
     try {
         if(req.session.user){
             if(req.session.user.role=="organization"){
@@ -75,7 +75,7 @@ exports.organization=async(req,res)=>{
         return res.redirect('/logout')
     }
 }
-exports.CandidateLogin=async(req,res)=>{
+exports.CandidateLogin=async(req,res,next)=>{
     try {
         if(req.session.user){
             if(req.session.user.role=="candidate"){

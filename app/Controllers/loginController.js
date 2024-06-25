@@ -114,8 +114,8 @@ exports.userCreate=async(req,res)=>{
             return res.redirect('/')    
         }else{
             console.log('This Email or Name Already Exists')
-            req.flash('info','Login Here')
-            return res.redirect('/signup')
+            req.flash('info','Email Already Exist! Login Here')
+            return res.redirect('/')
         }
     } catch (error) {
         console.log(error)
@@ -136,6 +136,7 @@ exports.loginPage=async(req,res)=>{
         return res.render('./common/login.ejs',{messages:req.flash()})
     } catch (error) {
         console.log(error)
+        req.flash('error','Error on Login Page')
         return res.redirect('/logout')
     }
 }
@@ -157,7 +158,7 @@ exports.checkLogin=async(req,res)=>{
                 req.flash('success','Welcome To Dashboard')
                 return res.redirect('/dashboard')
             }else{
-                console.log('password not Matched')
+                console.log('Password Not Matched')
                 req.flash("error",'Password Not Matched')
                 return res.redirect('/')
             }
@@ -175,8 +176,6 @@ exports.checkLogin=async(req,res)=>{
 
 
 
-
-
 //Super Admin Dashboard
 
 exports.dashboardSuperAdmin=async(req,res)=>{
@@ -189,14 +188,6 @@ exports.dashboardSuperAdmin=async(req,res)=>{
         return res.redirect('/logout')
     }
 }
-
-
-
-
-
-
-
-
 
 //organization Form
 //get
@@ -219,29 +210,30 @@ exports.organizationForm=async(req,res)=>{
 exports.organizationFormData=async(req,res)=>{
     const t=await db.sequelize.transaction()
     const session=req.session.user
-    console.log("This session inside organization------->",session)
     try {
-        console.log("req.body-->",req.body)
         const oD=req.body;
-        if(organizationData.governmentCertified==="Yes"){
-            organizationData.governmentCertified=1
+        if(oD.governmentCertified==="Yes"){
+            oD.governmentCertified=1
+            
         }else{
-            organizationData.governmentCertified=0
+            oD.governmentCertified=0
         }
-        organizationData.status="Pending";
+        oD.status="Pending";
         const organizationData={
             organizationType: oD.organizationType,
             whySelect: oD.whySelect,
             governmentCertified: oD.governmentCertified,
             organizationAddress: oD.organizationAddress,
-            organizationImage: oD.organizationImage
+            organizationImage: oD.organizationImage,
+            status:oD.status,
         }
 
         // const organizationDataCreate=await organizationModel.create(organizationData,{transaction:t});
-        const organizationDataCreate=await organizationModel.update(organizationData,{where:{id:req.session.user.id}},{transaction:t});
-        console.log(organizationDataCreate)
+        const organizationDataCreate=await organizationModel.update(organizationData,{where:{random_value:req.session.user.random_value}},{transaction:t});
+        
         await t.commit()
-        return res.redirect("/organizationForm")
+        req.flash('success','Organization Is Submitted We Will Review And Back To You')
+        return res.redirect("/")
     } catch (error) {
         console.log(error)
         t.rollback();
