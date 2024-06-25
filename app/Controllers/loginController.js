@@ -1,6 +1,23 @@
 const {  Sequelize, DataTypes,Op } = require('sequelize');
 const bcrypt=require('bcryptjs')
 const axios=require('axios')
+// const nodemailer=require('nodemailer')
+
+// const transporter = nodemailer.createTransport({
+//     host: "smtp-mail.outlook.com",
+//     secure: false,
+//     secureConnection: false, // TLS requires secureConnection to be false
+//     tls: {
+//         ciphers: 'SSLv3'
+//     },
+//     requireTLS: true,
+//     port: 587,
+//     auth: {
+//         user: 'registrations@nightingale-care.co.uk',
+//         pass: 'DHTPortal191!',
+//     }
+// })
+
 
 const db=require('../../config/OrganizationDatabase')
 const helper=require('../../helper/helping')
@@ -71,6 +88,8 @@ exports.userCreate=async(req,res)=>{
                 console.log("this is candidate if in userCreate")
                 body.status="Candidate"
                 const loginDataCreate=await userModel.create(body,{transaction:t})
+                req.session.user=loginDataCreate
+                console.log(req.session.user)
             }else{
                 body.status="Remaining";
                 const loginDataCreate=await userModel.create(body,{transaction:t})
@@ -79,7 +98,7 @@ exports.userCreate=async(req,res)=>{
                     body.user_id=user_id;
                     const dataCreate=await organizationModel.create(body,{transaction:t})
                     console.log('dataCreate==>',dataCreate)
-                    req.session.user=dataCreate
+                    req.session.user=loginDataCreate
                     console.log('this is session inside of sign up --->',req.session.user)
                     await t.commit()
                     req.flash('success','Your Account Created Successfully')
@@ -183,6 +202,8 @@ exports.dashboardSuperAdmin=async(req,res)=>{
 //get
 exports.organizationForm=async(req,res)=>{
     try {
+        console.log("req.session--->",req.session)
+        console.log(req.session.user)
         const orData=await organizationModel.findAll()
         console.log('orData--->',orData)
         console.log('this is session inside of organization Form --->',req.session.user)
@@ -197,20 +218,30 @@ exports.organizationForm=async(req,res)=>{
 //post 
 exports.organizationFormData=async(req,res)=>{
     const t=await db.sequelize.transaction()
+    const session=req.session.user
+    console.log("This session inside organization------->",session)
     try {
         console.log("req.body-->",req.body)
-        const organizationData=req.body;
+        const oD=req.body;
         if(organizationData.governmentCertified==="Yes"){
             organizationData.governmentCertified=1
         }else{
             organizationData.governmentCertified=0
         }
         organizationData.status="Pending";
-        const organizationDataCreate=await organizationModel.create(organizationData,{transaction:t});
+        const organizationData={
+            organizationType: oD.organizationType,
+            whySelect: oD.whySelect,
+            governmentCertified: oD.governmentCertified,
+            organizationAddress: oD.organizationAddress,
+            organizationImage: oD.organizationImage
+        }
+
+        // const organizationDataCreate=await organizationModel.create(organizationData,{transaction:t});
+        const organizationDataCreate=await organizationModel.update(organizationData,{where:{id:req.session.user.id}},{transaction:t});
         console.log(organizationDataCreate)
         await t.commit()
         return res.redirect("/organizationForm")
-
     } catch (error) {
         console.log(error)
         t.rollback();
@@ -220,13 +251,16 @@ exports.organizationFormData=async(req,res)=>{
 }
 
 
-
-
-
-
-
-
-
+exports.loginAfter=async(req,res)=>{
+    try {
+        console.log("Login successfully")
+        return res.send('Login Successfully')
+    } catch (error) {
+        console.log(error)
+        req.flash('error','Something Went Wrong')
+        return res.redirect('/logout')
+    }
+}
 
 
 
