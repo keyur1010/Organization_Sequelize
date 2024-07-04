@@ -448,6 +448,7 @@
 
 <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script>
+      if(window.navigator.onLine==true){
         $(document).ready(function() {
             //make an AJAX request to fetch weather data from router
             $.ajax({
@@ -463,4 +464,10 @@
                 }
             });
         });
+      }else{
+        $('#temperature').text('--');
+        $('#city').text('--');
+        $('#country').text('--');
+      }
+        
     </script>

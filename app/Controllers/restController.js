@@ -35,22 +35,3 @@ exports.weather=async(req,res)=>{
         return res.json(weatherData);
     }
 }
-
-
-exports.isOnline=async(req,res)=>{
-    try {
-        const online=await isOnline();
-        if(online){
-            console.log('device is online')
-            return res.send("device is online")
-        }else{
-            console.log('Internet Not connected')
-            return res.send("Internet Not Connected")
-        }
-
-        
-    } catch (error) {
-        console.log(error)
-        return res.send(error)
-    }
-}
