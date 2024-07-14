@@ -209,6 +209,7 @@ exports.organizationForm=async(req,res)=>{
 //post 
 exports.organizationFormData=async(req,res)=>{
     const t=await db.sequelize.transaction()
+    console.log("req.body------------>",req.body)
     const session=req.session.user
     try {
         const oD=req.body;
@@ -226,11 +227,12 @@ exports.organizationFormData=async(req,res)=>{
             organizationAddress: oD.organizationAddress,
             organizationImage: oD.organizationImage,
             status:oD.status,
+            orStart:oD.orStart,
+            orEnd:oD.orEnd,
+            organizationDonation:oD.organizationDonation
         }
-
         // const organizationDataCreate=await organizationModel.create(organizationData,{transaction:t});
         const organizationDataCreate=await organizationModel.update(organizationData,{where:{random_value:req.session.user.random_value}},{transaction:t});
-        
         await t.commit()
         req.flash('success','Organization Is Submitted We Will Review And Back To You')
         return res.redirect("/")

@@ -41,8 +41,10 @@ const db =require('./config/OrganizationDatabase')
 
 const loginRoute=require('./routes/loginRoutes')
 const restRouter=require('./routes/restRouter')
+const adminRouter=require('./routes/adminRoutes')
 app.use('/',loginRoute)
 app.use('/rest',restRouter)
+app.use('/admin',adminRouter)
 
 
 app.listen(PORT,()=>{

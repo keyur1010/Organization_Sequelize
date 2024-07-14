@@ -33,7 +33,7 @@ db.organizationModel=require("../app/Models/organizationModel")(sequelize,DataTy
 
 
 // db.userModel.hasOne(db.organizationModel,{foreignKey:"use_id",as:"keur"})
-db.organizationModel.belongsTo(db.userModel,{foreignKey:"user_id" ,as:"keyur"})
+db.organizationModel.belongsTo(db.userModel,{foreignKey:"user_id" ,as:"user"})
 
 
 

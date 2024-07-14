@@ -133,19 +133,14 @@ label.light {
     <div class="col-md-12">
       <form action="/organizationFormData" method="post">
         <h1>Organization Sign Up </h1>
-        
         <fieldset>
-          
-          <legend><span class="number">1</span> Organization Basic Info</legend>
-        
-          <!-- <label for="organizationName">Name:</label>
-          <input type="text" id="organizationName" name="organizationName" required> -->
-<!--         
-          <label for="organizationEmail">Email:</label>
-          <input type="email" id="organizationEmail" name="organizationEmail" required> -->
-<!-- 
-          <label for="organizationMobile">Phone:</label>
-          <input type="text"  pattern="[0-9]{10}" id="organizationMobile" name="organizationMobile" required> -->
+          <legend>Organization Basic Info</legend>
+          <label for="organizationName">Donation Amount:</label>
+          <input type="number" id="organizationDonation" min=0 name="organizationDonation" required> 
+          <label for="orstart">Time Start:</label>
+          <input type="date" id="orStart" onchange="checkData()" name="orStart" > 
+          <label for="orEnd">Time End:</label>
+          <input type="date" id="orEnd" name="orEnd" onchange="checkData()" min="2024-01-02" required>
           <label for="organizationType">Organization type:</label>
           <select name="organizationType" id="organizationType" required>
             <option value="">-Select-</option>
@@ -172,46 +167,55 @@ label.light {
          <label for="organizationImage">Photo:</label>
          <input type="file" id="organizationImage" name="organizationImage" onchange="readURL(this)" required1e>
          <div class="img_url" style="border: 2px solid #e8eeef; width: 100px; height: 100px; overflow: hidden;">
-          <img src="your_image_url_here" style="height: 100%; width: 100%; object-fit: cover;" id="img_show" alt="Upload Image">
-         </div>
+            <img src="" style="height: 100%; width: 100%; object-fit: cover;" id="img_show" alt="Upload Image">
+         </div> 
          </fieldset>
        
         <button type="submit" id="Sign_up">Sign Up</button>
         
-       </form>
-        </div>
-      </div>
+      </form>
+    </div>
+  </div>
       
-    </body>
+</body>
 
-    <script>
-      var onlyNumber=document.getElementById('organizationMobile');
-      onlyNumber.addEventListener("input",function(event){
-        const inputValue=event.target.value;
-        console.log(event.target)
-        const numericValue=inputValue.replace(/\D/g,"");
-        event.target.value=numericValue.substring(0,10)
-      });
-      function readURL(input) {
-        var checkImage=document.getElementById("organizationImage")
-        var allowedExtensions=/(\.jpg|\.jpeg|\.png)$/i;
-        var fileName=checkImage.value;
-        var imgDiv=document.getElementById("img_show")
-          if (input.files && input.files[0]) {
-              var reader = new FileReader();
-              reader.onload = function (e) {
-                imgDiv.setAttribute('src', e.target.result);
-              };
-              reader.readAsDataURL(input.files[0]);
-          }
-          if (!allowedExtensions.exec(fileName)) {
-            alert('Invalid file type. Please choose a JPG, JPEG, or PNG file.');
-            checkImage.value = '';
-            return false;
-          }
-          return true
+  <script>
+    // minimum value in date
+    function checkData(){
+      const startDate=document.getElementById('orStart');
+      const endDate=document.getElementById('orEnd');
+      if(endDate.value<startDate.value){
+        endDate.value=null
+        console.log("inside")
+      }
+      endDate.setAttribute('min',startDate.value)
+    }
+    document.addEventListener("DOMContentLoaded", function() {
+      const startDate=document.getElementById('orStart');
+      const endDate=document.getElementById('orEnd');
+      var today = new Date().toISOString().split('T')[0];
+      startDate.setAttribute('min',today)
+      // document.getElementById("orStart").value = today;
+    });
+    function readURL(input) {
+      var checkImage=document.getElementById("organizationImage")
+      var allowedExtensions=/(\.jpg|\.jpeg|\.png)$/i;
+      var fileName=checkImage.value;
+      var imgDiv=document.getElementById("img_show")
+      if (input.files && input.files[0]) {
+      var reader = new FileReader();
+      reader.onload = function (e) {
+        imgDiv.setAttribute('src', e.target.result);
+      };
+        reader.readAsDataURL(input.files[0]);
+      }
+    if (!allowedExtensions.exec(fileName)) {
+      alert('Invalid file type. Please choose a JPG, JPEG, or PNG file.');
+      checkImage.value = '';
+      return false;
+    }
+    return true
+  }
 
-        }
-
-    </script>
+  </script>
 </html>

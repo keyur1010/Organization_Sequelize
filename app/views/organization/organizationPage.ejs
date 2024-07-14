@@ -1,0 +1,205 @@
+<style>
+  .button-action:hover{
+    background-color: #4B49AC;
+    color: white;
+  }
+  .button-action{
+    color: rgb(255, 0, 0);
+    border: 1px solid rgb(129, 129, 129); 
+    border-radius: 5px;
+  }
+  #editbutton{
+    color: blue;
+  }
+  #editbutton:hover{
+    color: white;
+  }
+</style>
+
+<%-include('../Main/header.ejs') %>
+
+
+<div class="container-scroller">
+  <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+    <div
+      class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+      <a class="navbar-brand brand-logo mr-5" href="/"><img src="/template/images/logo.svg" class="mr-2" alt="logo"/></a>
+      <a class="navbar-brand brand-logo-mini" href="/"><img src="/template/images/logo-mini.svg" alt="logo"/></a>
+    </div>
+    <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+      <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+        <span class="icon-menu"></span>
+      </button>
+     
+      <ul class="navbar-nav navbar-nav-right">
+        
+        <li class="nav-item nav-profile dropdown">
+          <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+            <img src="/template/images/faces/face28.jpg" alt="profile" />
+          </a>
+          <div
+            class="dropdown-menu dropdown-menu-right navbar-dropdown"
+            aria-labelledby="profileDropdown">
+            <a class="dropdown-item">
+              <i class="ti-settings text-primary"></i>
+              Settings
+            </a>
+            <a class="dropdown-item" href="/logout">
+              <i class="ti-power-off text-primary"></i>
+              Logout
+            </a>
+          </div>
+        </li>
+        <li class="nav-item nav-settings d-none d-lg-flex">
+          <a class="nav-link" href="#">
+            <i class="icon-ellipsis"></i>
+          </a>
+        </li>
+      </ul>
+      <button
+        class="navbar-toggler navbar-toggler-right d-lg-none align-self-center"
+        type="button"
+        data-toggle="offcanvas"
+      >
+        <span class="icon-menu"></span>
+      </button>
+    </div>
+  </nav>
+  <div class="container-fluid page-body-wrapper">
+    <div class="theme-setting-wrapper">
+      <!-- <div id="settings-trigger"><i class="ti-settings"></i></div> -->
+      <div id="theme-settings" class="settings-panel">
+        <i class="settings-close ti-close"></i>
+       
+      </div>
+    </div>
+    <div id="right-sidebar" class="settings-panel">
+      <i class="settings-close ti-close"></i>
+      <ul class="nav nav-tabs border-top" id="setting-panel" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" id="todo-tab" data-toggle="tab" href="#todo-section" role="tab" aria-controls="todo-section" aria-expanded="true">TO DO LIST</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="chats-tab" data-toggle="tab" href="#chats-section" role="tab" aria-controls="chats-section" >CHATS</a>
+        </li>
+      </ul>
+      <div class="tab-content" id="setting-content">
+        <div class="tab-pane fade show active scroll-wrapper" id="todo-section" role="tabpanel" aria-labelledby="todo-section">
+          
+        </div>
+        <div class="tab-pane fade" id="chats-section" role="tabpanel" aria-labelledby="chats-section">
+        
+        </div>
+      </div>
+    </div>
+    <%-include('../Main/sidebar.ejs') %>
+        <div class="main-panel">
+            <div class="row">
+                <div class="col-md-12 grid-margin stretch-card">
+                  <div class="card">
+                    <div class="card-body">
+                      <p class="card-title mb-3">All Organization</p>
+                      <div class="table-responsive">
+                        <table class="table table-striped table-borderless">
+                          <thead>
+                            <tr>
+                              <th>Name</th>
+                              <th>Donation Amount</th>
+                              <th>Government Certified</th>
+                              <th>Start Date</th>
+                              <th>End Date</th>
+                              <th>Status</th>
+                              <th>Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <% orData.forEach(function(user){%>
+                                <tr>
+                                    <td><%=user.user.name%></td>
+                                    <td class="font-weight-bold"><%=user.organizationDonation%></td>
+                                    <td>
+                                        <% if(user.governmentCertified===true){%>
+                                            <div class="badge badge-success">True </div>
+                                            <%}else{%>
+                                        <div class="badge badge-danger">False </div>
+                                        
+                                        <%} %>
+                                    </td>
+                                    <td> 
+                                      <%= (() => {
+                                      const date = new Date(user.orStart);
+                                      const day = String(date.getDate()).padStart(2, '0');
+                                      const month = String(date.getMonth() + 1).padStart(2, '0'); // getMonth() is zero-based
+                                      const year = date.getFullYear();
+                                      return `${day}-${month}-${year}`;
+                                      })() %>
+                                    </td>
+                                    <td>
+                                      <%= (() => {
+                                      const date = new Date(user.orEnd);
+                                      const day = String(date.getDate()).padStart(2, '0');
+                                      const month = String(date.getMonth() + 1).padStart(2, '0'); // getMonth() is zero-based
+                                      const year = date.getFullYear();
+                                      return `${day}-${month}-${year}`;
+                                      })() %>
+                                    </td>
+                                    <td class="font-weight-medium">
+                                    <% if(user.status==="Pending"){%>
+                                      <div class="badge badge-warning"><%=user.status%></div>
+                                    <%}else if(user.status==="Approved"){%>
+                                        <div class="badge badge-success"><%=user.status%></div>
+                                    <%}else if(user.status==="Rejected") {%>
+                                        <div class="badge badge-danger"><%=user.status%></div>
+                                    <%} %>
+                                    </td>
+                                    <td>
+                                      <a href="/edit" class="button-action p-1" id="editbutton"><i class="mdi mdi-pencil"></i></a>
+                                      <a href="/delete" onclick="return areYouSure()" class="button-action ml-2 p-1"><i class="mdi mdi-delete"></i></a>
+                                    </td>
+                                </tr>
+                            <%}) %>
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<%-include('../Main/footer.ejs') %>
+
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script>
+      if(window.navigator.onLine==true){
+        $(document).ready(function() {
+            //make an AJAX request to fetch weather data from router
+            $.ajax({
+                url: '/rest/weather', // call the router and get the value
+                method: 'GET',
+                success: function(data) {
+                    $('#temperature').text(data.current.temp_c);
+                    $('#city').text(data.location.name);
+                    $('#country').text(data.location.country);
+                },
+                error: function(error) {
+                    console.error('Error fetching weather data:', error);
+                }
+            });
+        });
+      }else{
+        $('#temperature').text('--');
+        $('#city').text('--');
+        $('#country').text('--');
+      }
+      function areYouSure(){
+        const a=confirm("You sure to Delete this")
+        if (confirm("Are you sure you want to delete this?")) {
+          return true; // Proceed with the link's default action
+        } else {
+          return false; // Prevent the link's default action
+         }
+      }
+    </script>
