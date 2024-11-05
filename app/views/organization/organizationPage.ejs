@@ -8,6 +8,17 @@
     border: 1px solid rgb(129, 129, 129); 
     border-radius: 5px;
   }
+  #buttonView{
+    color:#4B49AC ;
+    border: 1px solid rgb(129, 129, 129); 
+    border-radius: 5px;
+  }
+  #buttonView:hover{
+    color:#ffffff ;
+    background-color:#4B49AC ;
+    border: 1px solid rgb(129, 129, 129); 
+    border-radius: 5px;
+  }
   #editbutton{
     color: blue;
   }
@@ -153,8 +164,10 @@
                                     <%} %>
                                     </td>
                                     <td>
-                                      <a href="/edit" class="button-action p-1" id="editbutton"><i class="mdi mdi-pencil"></i></a>
-                                      <a href="/delete" onclick="return areYouSure()" class="button-action ml-2 p-1"><i class="mdi mdi-delete"></i></a>
+                                      <!-- <a href="/admin/editOrganizationGet/<%= user.random_value %>" class="button-action p-1" id="editbutton"><i class="mdi mdi-pencil"></i></a>
+                                      <a href="/admin/delete/<%= user.random_value %>" onclick="return areYouSure()" class="button-action ml-2 p-1"><i class="mdi mdi-delete"></i></a> -->
+                                      <a href="/admin/delete/<%= user.random_value %>" onclick="return areYouSure()" class="button-action p-1"><i class="mdi mdi-delete"></i></a>
+                                      <a href="/admin/viewOrganization/<%= user.random_value %>" class="ml-2 p-1" id="buttonView"><i class="mdi mdi-eye"></i></a>
                                     </td>
                                 </tr>
                             <%}) %>

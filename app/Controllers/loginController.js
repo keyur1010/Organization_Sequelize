@@ -210,6 +210,8 @@ exports.organizationForm=async(req,res)=>{
 exports.organizationFormData=async(req,res)=>{
     const t=await db.sequelize.transaction()
     console.log("req.body------------>",req.body)
+    console.log("file-----LL:",req.file)
+    const filename=req.file.filename
     const session=req.session.user
     try {
         const oD=req.body;
@@ -225,7 +227,7 @@ exports.organizationFormData=async(req,res)=>{
             whySelect: oD.whySelect,
             governmentCertified: oD.governmentCertified,
             organizationAddress: oD.organizationAddress,
-            organizationImage: oD.organizationImage,
+            organizationImage: filename,
             status:oD.status,
             orStart:oD.orStart,
             orEnd:oD.orEnd,

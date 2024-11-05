@@ -1,0 +1,121 @@
+<%-include('../Main/header.ejs') %>
+
+
+
+
+<nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+    <div
+      class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+      <a class="navbar-brand brand-logo mr-5" href="/"><img src="/template/images/logo.svg" class="mr-2" alt="logo"/></a>
+      <a class="navbar-brand brand-logo-mini" href="/"><img src="/template/images/logo-mini.svg" alt="logo"/></a>
+    </div>
+    <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+      <button class="navbar-toggler navbar-toggler align-self-center" type="button" data-toggle="minimize">
+        <span class="icon-menu"></span>
+      </button>
+     
+      <ul class="navbar-nav navbar-nav-right">
+        
+        <li class="nav-item nav-profile dropdown">
+          <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+            <img src="/template/images/faces/face28.jpg" alt="profile" />
+          </a>
+          <div
+            class="dropdown-menu dropdown-menu-right navbar-dropdown"
+            aria-labelledby="profileDropdown">
+            <a class="dropdown-item">
+              <i class="ti-settings text-primary"></i>
+              Settings
+            </a>
+            <a class="dropdown-item" href="/logout">
+              <i class="ti-power-off text-primary"></i>
+              Logout
+            </a>
+          </div>
+        </li>
+        <li class="nav-item nav-settings d-none d-lg-flex">
+          <a class="nav-link" href="#">
+            <i class="icon-ellipsis"></i>
+          </a>
+        </li>
+      </ul>
+      <button
+        class="navbar-toggler navbar-toggler-right d-lg-none align-self-center"
+        type="button"
+        data-toggle="offcanvas"
+      >
+        <span class="icon-menu"></span>
+      </button>
+    </div>
+  </nav>
+  <div class="container-fluid page-body-wrapper">
+    <div class="theme-setting-wrapper">
+      <div id="theme-settings" class="settings-panel">
+        <i class="settings-close ti-close"></i>
+       
+      </div>
+    </div>
+    <div id="right-sidebar" class="settings-panel">
+      <i class="settings-close ti-close"></i>
+      <ul class="nav nav-tabs border-top" id="setting-panel" role="tablist">
+        <li class="nav-item">
+          <a class="nav-link active" id="todo-tab" data-toggle="tab" href="#todo-section" role="tab" aria-controls="todo-section" aria-expanded="true">TO DO LIST</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="chats-tab" data-toggle="tab" href="#chats-section" role="tab" aria-controls="chats-section" >CHATS</a>
+        </li>
+      </ul>
+      <div class="tab-content" id="setting-content">
+        <div class="tab-pane fade show active scroll-wrapper" id="todo-section" role="tabpanel" aria-labelledby="todo-section">
+          
+        </div>
+        <div class="tab-pane fade" id="chats-section" role="tabpanel" aria-labelledby="chats-section">
+        
+        </div>
+      </div>
+    </div>
+
+
+<%-include('../Main/sidebar.ejs') %>
+    <div class="col-10 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Edit Page</h4>
+        <p class="card-description">
+          Edit Page
+        </p>
+        <form class="forms-sample">
+            <div class="form-group">
+                <label for="exampleInputName1">Name</label>
+                <input type="text" class="form-control" id="exampleInputName1" placeholder="Name">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputEmail3">Email address</label>
+                <input type="email" class="form-control" id="exampleInputEmail3" placeholder="Email">
+            </div>
+            <div class="form-group">
+                <label for="exampleInputPassword4">Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword4" placeholder="Password">
+            </div>
+            <div class="form-group">
+                <label for="exampleSelectGender">Gender</label>
+                <select class="form-control" id="exampleSelectGender">
+                  <option>Male</option>
+                  <option>Female</option>
+                </select>
+            </div>
+            <div class="form-group">
+              <label for="exampleInputCity1">City</label>
+              <input type="text" class="form-control" id="exampleInputCity1" placeholder="Location">
+            </div>
+            <div class="form-group">
+              <label for="exampleTextarea1">Textarea</label>
+              <textarea class="form-control" id="exampleTextarea1" rows="4"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary mr-2">Submit</button>
+            <button class="btn btn-light">Cancel</button>
+        </form>
+      </div>
+    </div>
+  </div>
+  <%-include('../Main/footer.ejs') %>

@@ -17,3 +17,33 @@ exports.organization=async(req,res)=>{
         return res.redirect('/logout')
     }
 }
+exports.editOrganizationGet=async(req,res)=>{
+    try {
+        const value=req.params.random_value
+        const orData=await organizationModel.findOne({where:{random_value:value}})
+        const userData=await organizationModel.findOne({where:{random_value:value}})
+        // console.log("orData------>",orData)
+        // console.log("userData------>",userData)
+        return res.render("./organization/EditOrganization.ejs",{messages:req.flash(),orData,userData})
+    } catch (error) {
+        console.log(error)
+        req.flash('error','Something Went Wrong')
+        return res.redirect('/logout')
+    }
+}
+
+
+exports.viewOrganization=async(req,res)=>{
+    try {
+        const value=req.params.random_value
+        const orData=await organizationModel.findOne({where:{random_value:value}})
+        const userData=await userModel.findOne({where:{random_value:value}})
+        console.log("orData--------------->",orData)
+        console.log("userData--------------->",userData)
+        return res.render('./organization/viewOrganization.ejs',{messages:req.flash(),orData,userData})
+    } catch (error) {
+        console.log(error)
+        req.flash('error','Something Went Wrong')
+        return res.redirect('/logout')
+    }
+}
